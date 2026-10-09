@@ -1,0 +1,404 @@
+{% extends "base.html" %}
+
+{% block title %}
+Sharh qoldirish — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .review-page {
+        min-height: 75vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .review-card {
+        border-radius: 28px;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .review-header {
+        background: linear-gradient(135deg, #111827, #1f2937);
+        color: white;
+        padding: 35px;
+    }
+
+    .review-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 193, 7, 0.15);
+        color: #ffc107;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .review-header h1 {
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .review-body {
+        padding: 35px;
+    }
+
+    .master-box {
+        border: 1px solid #e9ecef;
+        border-radius: 18px;
+        padding: 20px;
+        background: #f8f9fa;
+    }
+
+    .master-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0d6efd, #6f42c1);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+        font-weight: 800;
+    }
+
+    .rating-section {
+        text-align: center;
+        padding: 25px 15px;
+        border-radius: 20px;
+        background: #fffaf0;
+        border: 1px solid #ffe8a1;
+    }
+
+    .rating-title {
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .rating-subtitle {
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    .stars {
+        display: flex;
+        justify-content: center;
+        flex-direction: row-reverse;
+        gap: 8px;
+    }
+
+    .stars input {
+        display: none;
+    }
+
+    .stars label {
+        font-size: 42px;
+        color: #d9dee3;
+        cursor: pointer;
+        transition: 0.2s ease;
+        line-height: 1;
+    }
+
+    .stars label:hover,
+    .stars label:hover ~ label,
+    .stars input:checked ~ label {
+        color: #ffc107;
+        transform: scale(1.08);
+    }
+
+    .selected-rating {
+        margin-top: 14px;
+        font-weight: 700;
+        color: #6c757d;
+        min-height: 24px;
+    }
+
+    .comment-label {
+        font-weight: 700;
+    }
+
+    .comment-box {
+        min-height: 130px;
+        border-radius: 16px;
+        resize: vertical;
+    }
+
+    .btn-submit {
+        border-radius: 14px;
+        font-weight: 700;
+        padding: 13px 24px;
+    }
+
+    .btn-cancel {
+        border-radius: 14px;
+        padding: 13px 24px;
+    }
+
+    @media (max-width: 576px) {
+
+        .review-header,
+        .review-body {
+            padding: 25px 20px;
+        }
+
+        .stars label {
+            font-size: 34px;
+        }
+
+        .stars {
+            gap: 4px;
+        }
+    }
+</style>
+
+
+<div class="container py-5 review-page">
+
+    <div class="row justify-content-center w-100">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <div class="card border-0 shadow-lg review-card">
+
+                <!-- HEADER -->
+                <div class="review-header">
+
+                    <div class="review-badge">
+                        <i class="bi bi-star-fill"></i>
+                        USTATOP REVIEW
+                    </div>
+
+                    <h1>
+                        Xizmatni baholang
+                    </h1>
+
+                    <p class="mb-0 text-white-50">
+                        {{ order.service.title }}
+                    </p>
+
+                </div>
+
+
+                <!-- BODY -->
+                <div class="review-body">
+
+                    <!-- MASTER -->
+                    <div class="master-box mb-4">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="master-avatar">
+                                {{ order.service.master.user.username|first|upper }}
+                            </div>
+
+                            <div>
+
+                                <div class="text-muted small">
+                                    Xizmat ko‘rsatuvchi usta
+                                </div>
+
+                                <div class="fw-bold fs-5">
+                                    {{ order.service.master.user.get_full_name|default:order.service.master.user.username }}
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ order.service.master.profession }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+
+                        <!-- RATING -->
+                        <div class="rating-section mb-4">
+
+                            <div class="rating-title">
+                                Ustaga nechta ⭐ berasiz?
+                            </div>
+
+                            <div class="rating-subtitle">
+                                Tajribangizni baholang
+                            </div>
+
+
+                            <div class="stars">
+
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="5"
+                                    id="star5"
+                                >
+                                <label
+                                    for="star5"
+                                    title="5 — A'lo"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="4"
+                                    id="star4"
+                                >
+                                <label
+                                    for="star4"
+                                    title="4 — Juda yaxshi"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="3"
+                                    id="star3"
+                                >
+                                <label
+                                    for="star3"
+                                    title="3 — Yaxshi"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="2"
+                                    id="star2"
+                                >
+                                <label
+                                    for="star2"
+                                    title="2 — Qoniqarli"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="1"
+                                    id="star1"
+                                >
+                                <label
+                                    for="star1"
+                                    title="1 — Qoniqarsiz"
+                                >
+                                    ★
+                                </label>
+
+                            </div>
+
+
+                            <div
+                                class="selected-rating"
+                                id="ratingText"
+                            >
+                                Bahoni tanlang
+                            </div>
+
+                        </div>
+
+
+                        <!-- COMMENT -->
+                        <div class="mb-4">
+
+                            <label class="form-label comment-label">
+                                💬 Fikringiz
+                            </label>
+
+                            {{ form.comment }}
+
+                            {% if form.comment.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.comment.errors }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+                        <div class="d-flex gap-2">
+
+                            <a
+                                href="{% url 'order_detail' order.id %}"
+                                class="btn btn-light btn-cancel"
+                            >
+                                ← Bekor qilish
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-submit flex-grow-1"
+                            >
+                                <i class="bi bi-send me-2"></i>
+                                Sharhni yuborish
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const ratingInputs = document.querySelectorAll(
+        'input[name="rating"]'
+    );
+
+    const ratingText = document.getElementById(
+        "ratingText"
+    );
+
+    const ratingLabels = {
+        1: "⭐ Qoniqarsiz",
+        2: "⭐⭐ Qoniqarli",
+        3: "⭐⭐⭐ Yaxshi",
+        4: "⭐⭐⭐⭐ Juda yaxshi",
+        5: "⭐⭐⭐⭐⭐ A'lo"
+    };
+
+    ratingInputs.forEach(function(input) {
+
+        input.addEventListener("change", function() {
+
+            ratingText.textContent =
+                ratingLabels[this.value];
+
+        });
+
+    });
+
+</script>
+
+{% endblock %}

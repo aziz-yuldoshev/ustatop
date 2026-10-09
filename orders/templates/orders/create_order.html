@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+Buyurtma berish — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <h2 class="mb-2">
+                        Buyurtma berish
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        {{ service.title }}
+                    </p>
+
+                    <div class="alert alert-light border">
+
+                        <strong>Usta:</strong>
+                        {{ service.master.user.get_full_name|default:service.master.user.username }}
+
+                        <br>
+
+                        <strong>Xizmat:</strong>
+                        {{ service.title }}
+
+                        <br>
+
+                        <strong>Narx:</strong>
+                        {{ service.price }} so‘m
+
+                    </div>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        {% for field in form %}
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    {{ field.label }}
+                                </label>
+
+                                {{ field }}
+
+                                {% if field.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ field.errors }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        {% endfor %}
+
+                        <div class="d-flex gap-2 mt-4">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary px-4"
+                            >
+                                Buyurtma berish
+                            </button>
+
+                            <a
+                                href="javascript:history.back()"
+                                class="btn btn-outline-secondary"
+                            >
+                                Bekor qilish
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

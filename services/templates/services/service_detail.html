@@ -1,0 +1,638 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.title }} — USTATOP{% endblock %}
+
+{% block content %}
+
+<style>
+    .detail-page {
+        padding: 50px 0 80px;
+    }
+
+    .detail-card {
+        background: #ffffff;
+        border: 1px solid #e9e7e2;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(17, 24, 39, 0.08);
+    }
+
+    .service-image {
+        width: 100%;
+        height: 430px;
+        object-fit: cover;
+        background: #f3f1ec;
+    }
+
+    .image-placeholder {
+        width: 100%;
+        height: 430px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+            linear-gradient(135deg, #f4f1eb, #ebe7df);
+        color: #777;
+        font-size: 70px;
+    }
+
+    .detail-content {
+        padding: 38px;
+    }
+
+    .category-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #f0edff;
+        color: #5B3DF5;
+        padding: 8px 14px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .service-title {
+        font-size: clamp(30px, 4vw, 48px);
+        line-height: 1.08;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 18px;
+    }
+
+    .service-description {
+        color: #6b7280;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .price-box {
+        background: #111827;
+        color: white;
+        border-radius: 22px;
+        padding: 22px 24px;
+        margin-top: 28px;
+    }
+
+    .price-label {
+        color: #aeb5c2;
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+
+    .price {
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .price-type {
+        color: #c7ccd5;
+        font-size: 14px;
+        margin-left: 6px;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .btn-order {
+        background: #FF6B35;
+        color: white;
+        border: none;
+        border-radius: 14px;
+        padding: 13px 24px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: .2s;
+    }
+
+    .btn-order:hover {
+        background: #e95724;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-favorite {
+        border: 1px solid #dedbd5;
+        background: white;
+        color: #111827;
+        border-radius: 14px;
+        padding: 13px 20px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: .2s;
+    }
+
+    .btn-favorite:hover {
+        border-color: #FF6B35;
+        color: #FF6B35;
+    }
+
+    .master-card {
+        background: #f7f5f0;
+        border-radius: 22px;
+        padding: 25px;
+        height: 100%;
+    }
+
+    .master-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #ddd;
+    }
+
+    .master-avatar-placeholder {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: #5B3DF5;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .verified {
+        color: #159947;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .master-name {
+        color: #111827;
+        font-weight: 800;
+        font-size: 19px;
+    }
+
+    .master-profession {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .master-info {
+        margin-top: 22px;
+    }
+
+    .info-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 13px;
+        color: #4b5563;
+        font-size: 14px;
+    }
+
+    .info-row i {
+        color: #5B3DF5;
+        font-size: 18px;
+    }
+
+    .section-title {
+        color: #111827;
+        font-size: 27px;
+        font-weight: 800;
+        margin-bottom: 22px;
+    }
+
+    .review-card {
+        background: white;
+        border: 1px solid #e9e7e2;
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 14px;
+    }
+
+    .review-user {
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .review-date {
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+    .stars {
+        color: #f59e0b;
+        letter-spacing: 2px;
+    }
+
+    .review-comment {
+        margin-top: 10px;
+        color: #5f6672;
+        line-height: 1.7;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #5B3DF5;
+        text-decoration: none;
+        font-weight: 700;
+        margin-bottom: 22px;
+    }
+
+    .back-link:hover {
+        color: #3f29c7;
+    }
+
+    @media (max-width: 768px) {
+        .detail-page {
+            padding-top: 25px;
+        }
+
+        .service-image,
+        .image-placeholder {
+            height: 280px;
+        }
+
+        .detail-content {
+            padding: 25px;
+        }
+
+        .service-title {
+            font-size: 32px;
+        }
+    }
+</style>
+
+
+<div class="container detail-page">
+
+    <a href="{% url 'home' %}" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Xizmatlarga qaytish
+    </a>
+
+
+    <!-- SERVICE -->
+    <div class="detail-card">
+
+        <div class="row g-0">
+
+            <!-- IMAGE -->
+            <div class="col-lg-6">
+
+                {% if service.image %}
+                <img
+                        src="{{ service.image.url }}"
+                        class="service-image"
+                        alt="{{ service.title }}"
+                >
+                {% else %}
+                <div class="image-placeholder">
+                    <i class="bi bi-tools"></i>
+                </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <div class="col-lg-6">
+
+                <div class="detail-content">
+
+                    <div class="category-badge">
+                        <i class="bi bi-grid"></i>
+                        {{ service.category.name }}
+                    </div>
+
+
+                    <h1 class="service-title">
+                        {{ service.title }}
+                    </h1>
+
+
+                    {% if service.description %}
+                    <div class="service-description">
+                        {{ service.description|linebreaks }}
+                    </div>
+                    {% else %}
+                    <div class="service-description">
+                        Ushbu xizmat haqida qo‘shimcha ma'lumot mavjud emas.
+                    </div>
+                    {% endif %}
+
+
+                    <!-- PRICE -->
+                    <div class="price-box">
+
+                        <div class="price-label">
+                            Xizmat narxi
+                        </div>
+
+                        <span class="price">
+                            {{ service.price|floatformat:0 }}
+                        </span>
+
+                        <span class="price-type">
+                            so‘m
+
+                            {% if service.price_type == "hourly" %}
+                                / soat
+                            {% elif service.price_type == "from" %}
+                                dan
+                            {% endif %}
+                        </span>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+                    <div class="action-row">
+
+                        {% if user.is_authenticated %}
+
+                        <a
+                                href="{% url 'create_order' service.id %}"
+                                class="btn-order"
+                        >
+                            <i class="bi bi-calendar-check me-2"></i>
+                            Buyurtma berish
+                        </a>
+
+
+                        <form
+                                method="post"
+                                action="{% url 'toggle_favorite' service.id %}"
+                                class="d-inline"
+                        >
+                            {% csrf_token %}
+
+                            <input
+                                    type="hidden"
+                                    name="next"
+                                    value="{{ request.path }}"
+                            >
+
+                            <button
+                                    type="submit"
+                                    class="btn-favorite"
+                            >
+                                {% if is_favorite %}
+                                <i class="bi bi-heart-fill me-2"></i>
+                                Sevimlilardan olib tashlash
+                                {% else %}
+                                <i class="bi bi-heart me-2"></i>
+                                Sevimlilarga qo‘shish
+                                {% endif %}
+                            </button>
+                        </form>
+
+                        {% else %}
+
+                        <a
+                                href="/admin/login/?next={% url 'service_detail' service.id %}"
+                                class="btn-order"
+                        >
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Kirish va buyurtma berish
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MASTER + SERVICE INFO -->
+    <div class="row g-4 mt-4">
+
+        <div class="col-lg-5">
+
+            <div class="master-card">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    {% if service.master.user.avatar %}
+
+                    <img
+                            src="{{ service.master.user.avatar.url }}"
+                            class="master-avatar"
+                            alt="Usta"
+                    >
+
+                    {% else %}
+
+                    <div class="master-avatar-placeholder">
+                        {{ service.master.user.username|first|upper }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <div>
+
+                        <div class="master-name">
+                            {{ service.master.user.get_full_name|default:service.master.user.username }}
+                        </div>
+
+                        <div class="master-profession">
+                            {{ service.master.profession }}
+                        </div>
+
+                        {% if service.master.is_verified %}
+                        <div class="verified mt-1">
+                            <i class="bi bi-patch-check-fill"></i>
+                            Tasdiqlangan usta
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="master-info">
+
+                    <div class="info-row">
+                        <i class="bi bi-star-fill"></i>
+                        <span>
+                            Reyting:
+                            <strong>
+                                {{ service.master.rating|floatformat:1 }}
+                            </strong>
+                        </span>
+                    </div>
+
+
+                    <div class="info-row">
+                        <i class="bi bi-briefcase-fill"></i>
+                        <span>
+                            Tajriba:
+                            <strong>
+                                {{ service.master.experience_years }} yil
+                            </strong>
+                        </span>
+                    </div>
+
+
+                    <div class="info-row">
+                        <i class="bi bi-check2-circle"></i>
+                        <span>
+                            Tugallangan buyurtmalar:
+                            <strong>
+                                {{ service.master.completed_orders }}
+                            </strong>
+                        </span>
+                    </div>
+
+
+                    {% if service.master.service_area %}
+
+                    <div class="info-row">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span>
+                                {{ service.master.service_area }}
+                            </span>
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-7">
+
+            <div class="master-card">
+
+                <h2 class="section-title">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Usta haqida
+                </h2>
+
+                {% if service.master.bio %}
+
+                <p class="text-secondary lh-lg">
+                    {{ service.master.bio|linebreaks }}
+                </p>
+
+                {% else %}
+
+                <p class="text-secondary">
+                    Usta o‘zi haqida hali ma'lumot kiritmagan.
+                </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REVIEWS -->
+    <div class="mt-5">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <h2 class="section-title mb-0">
+                <i class="bi bi-chat-square-text me-2"></i>
+                Mijozlar fikrlari
+            </h2>
+
+            <a
+                    href="{% url 'service_reviews' service.id %}"
+                    class="btn btn-outline-dark rounded-pill px-4"
+            >
+                Barcha sharhlar
+            </a>
+
+        </div>
+
+
+        <div class="mt-4">
+
+            {% for review in reviews %}
+
+            <div class="review-card">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+
+                        <div class="review-user">
+                            {{ review.customer.get_full_name|default:review.customer.username }}
+                        </div>
+
+                        <div class="review-date">
+                            {{ review.created_at|date:"d.m.Y" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stars">
+
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                        ★
+                        {% else %}
+                        ☆
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                {% if review.comment %}
+
+                <div class="review-comment">
+                    {{ review.comment }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            {% empty %}
+
+            <div class="review-card text-center py-5">
+
+                <div class="fs-1 mb-3">
+                    💬
+                </div>
+
+                <h5 class="fw-bold">
+                    Hali sharhlar yo‘q
+                </h5>
+
+                <p class="text-secondary mb-0">
+                    Birinchi bo‘lib fikr bildirish mumkin.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

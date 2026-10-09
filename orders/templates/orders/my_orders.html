@@ -1,0 +1,478 @@
+{% extends "base.html" %}
+
+{% block title %}
+Buyurtmalarim — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <div>
+            <span class="badge bg-primary mb-2">
+                📦 USTATOP
+            </span>
+
+            <h2 class="fw-bold mb-1">
+                Buyurtmalarim
+            </h2>
+
+            <p class="text-muted mb-0">
+                Siz bergan va sizga kelgan buyurtmalarni boshqaring.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- ====================================================== -->
+    <!-- 👤 MIJOZ BUYURTMALARI -->
+    <!-- ====================================================== -->
+
+    {% if orders %}
+
+        <div class="mb-4">
+
+            <h4 class="fw-bold">
+                👤 Men bergan buyurtmalar
+            </h4>
+
+            <p class="text-muted">
+                Siz buyurtma bergan xizmatlar.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4 mb-5">
+
+            {% for order in orders %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card h-100 shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+                            <!-- SERVICE -->
+                            <h5 class="fw-bold mb-3">
+                                {{ order.service.title }}
+                            </h5>
+
+
+                            <!-- MASTER -->
+                            <p class="text-muted mb-2">
+
+                                <i class="bi bi-person-gear"></i>
+
+                                Usta:
+
+                                <strong>
+                                    {{ order.service.master.user.get_full_name|default:order.service.master.user.username }}
+                                </strong>
+
+                            </p>
+
+
+                            <!-- PRICE -->
+                            <div class="mb-3">
+
+                                <span class="text-muted small">
+                                    Narx
+                                </span>
+
+                                <div class="fw-bold fs-5">
+                                    {{ order.agreed_price|floatformat:0 }}
+                                    so‘m
+                                </div>
+
+                            </div>
+
+
+                            <!-- STATUS -->
+                            <div class="mb-3">
+
+                                {% if order.status == "pending" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        ⏳ Kutilmoqda
+                                    </span>
+
+                                {% elif order.status == "accepted" %}
+
+                                    <span class="badge bg-info">
+                                        ✓ Qabul qilindi
+                                    </span>
+
+                                {% elif order.status == "in_progress" %}
+
+                                    <span class="badge bg-primary">
+                                        🔧 Jarayonda
+                                    </span>
+
+                                {% elif order.status == "completed" %}
+
+                                    <span class="badge bg-success">
+                                        ✓ Tugallandi
+                                    </span>
+
+                                {% elif order.status == "rejected" %}
+
+                                    <span class="badge bg-danger">
+                                        ✕ Rad etildi
+                                    </span>
+
+                                {% elif order.status == "cancelled" %}
+
+                                    <span class="badge bg-secondary">
+                                        Bekor qilindi
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- DATE -->
+                            <p class="small text-muted mb-3">
+
+                                <i class="bi bi-calendar3"></i>
+
+                                {{ order.created_at|date:"d.m.Y H:i" }}
+
+                            </p>
+
+
+                            <!-- DETAIL -->
+                            <a
+                                href="{% url 'order_detail' order.id %}"
+                                class="btn btn-outline-primary w-100"
+                            >
+                                Batafsil →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+
+    <!-- ====================================================== -->
+    <!-- 🔧 USTAGA KELGAN BUYURTMALAR -->
+    <!-- ====================================================== -->
+
+    {% if master_orders %}
+
+        <div class="border-top pt-5 mt-5">
+
+            <div class="mb-4">
+
+                <span class="badge bg-dark mb-2">
+                    🔧 USTA
+                </span>
+
+                <h4 class="fw-bold mb-1">
+                    Sizga kelgan buyurtmalar
+                </h4>
+
+                <p class="text-muted">
+                    Xizmatlaringizga berilgan buyurtmalarni shu yerdan boshqaring.
+                </p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                {% for order in master_orders %}
+
+                    <div class="col-md-6 col-lg-4">
+
+                        <div class="card h-100 border-0 shadow-sm">
+
+                            <div class="card-body p-4">
+
+                                <!-- NEW ORDER -->
+                                {% if order.status == "pending" %}
+
+                                    <div class="mb-3">
+
+                                        <span class="badge bg-warning text-dark">
+                                            🔔 Yangi buyurtma
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <!-- SERVICE -->
+                                <h5 class="fw-bold mb-3">
+                                    {{ order.service.title }}
+                                </h5>
+
+
+                                <!-- CUSTOMER -->
+                                <div class="mb-3">
+
+                                    <div class="text-muted small">
+                                        Mijoz
+                                    </div>
+
+                                    <div class="fw-semibold">
+
+                                        <i class="bi bi-person"></i>
+
+                                        {{ order.customer.get_full_name|default:order.customer.username }}
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PHONE -->
+                                <div class="mb-3">
+
+                                    <div class="text-muted small">
+                                        Telefon
+                                    </div>
+
+                                    <div class="fw-semibold">
+                                        📞 {{ order.phone }}
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ADDRESS -->
+                                <div class="mb-3">
+
+                                    <div class="text-muted small">
+                                        Manzil
+                                    </div>
+
+                                    <div class="fw-semibold">
+                                        📍 {{ order.address }}
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PRICE -->
+                                <div class="mb-3">
+
+                                    <div class="text-muted small">
+                                        Buyurtma narxi
+                                    </div>
+
+                                    <div class="fw-bold fs-5">
+                                        {{ order.agreed_price|floatformat:0 }}
+                                        so‘m
+                                    </div>
+
+                                </div>
+
+
+                                <!-- STATUS -->
+                                <div class="mb-3">
+
+                                    {% if order.status == "pending" %}
+
+                                        <span class="badge bg-warning text-dark">
+                                            ⏳ Kutilmoqda
+                                        </span>
+
+                                    {% elif order.status == "accepted" %}
+
+                                        <span class="badge bg-info">
+                                            ✓ Qabul qilindi
+                                        </span>
+
+                                    {% elif order.status == "in_progress" %}
+
+                                        <span class="badge bg-primary">
+                                            🔧 Jarayonda
+                                        </span>
+
+                                    {% elif order.status == "completed" %}
+
+                                        <span class="badge bg-success">
+                                            ✓ Tugallandi
+                                        </span>
+
+                                    {% elif order.status == "rejected" %}
+
+                                        <span class="badge bg-danger">
+                                            ✕ Rad etildi
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- DATE -->
+                                <p class="small text-muted mb-3">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    {{ order.created_at|date:"d.m.Y H:i" }}
+
+                                </p>
+
+
+                                <!-- ACTIONS -->
+                                {% if order.status == "pending" %}
+
+                                    <div class="d-grid gap-2">
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'accept_order' order.id %}"
+                                        >
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-success w-100"
+                                            >
+                                                ✓ Qabul qilish
+                                            </button>
+
+                                        </form>
+
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'reject_order' order.id %}"
+                                        >
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-outline-danger w-100"
+                                            >
+                                                ✕ Rad etish
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+
+                                {% elif order.status == "accepted" %}
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'start_order' order.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary w-100"
+                                        >
+                                            🔧 Ishni boshlash
+                                        </button>
+
+                                    </form>
+
+
+                                {% elif order.status == "in_progress" %}
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'complete_order' order.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-success w-100"
+                                        >
+                                            ✓ Ishni tugatish
+                                        </button>
+
+                                    </form>
+
+
+                                {% endif %}
+
+
+                                <!-- DETAIL -->
+                                <a
+                                    href="{% url 'order_detail' order.id %}"
+                                    class="btn btn-outline-secondary w-100 mt-2"
+                                >
+                                    Batafsil →
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+    {% endif %}
+
+
+
+    <!-- ====================================================== -->
+    <!-- EMPTY STATE -->
+    <!-- ====================================================== -->
+
+    {% if not orders and not master_orders %}
+
+        <div class="text-center py-5">
+
+            <div
+                class="display-1 mb-3"
+            >
+                📦
+            </div>
+
+            <h4 class="fw-bold">
+                Hozircha buyurtmalar mavjud emas
+            </h4>
+
+            <p class="text-muted mb-4">
+                Siz hali buyurtma bermagansiz yoki xizmatlaringizga
+                buyurtma kelmagan.
+            </p>
+
+            <a
+                href="{% url 'home' %}"
+                class="btn btn-primary px-4"
+            >
+                🔍 Xizmatlarni ko‘rish
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

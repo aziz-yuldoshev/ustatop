@@ -1,0 +1,641 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ master.user.get_full_name|default:master.user.username }} — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .master-page {
+        background: #f7f8fa;
+        min-height: calc(100vh - 80px);
+        padding: 45px 0 70px;
+    }
+
+    .master-profile {
+        background: #fff;
+        border-radius: 24px;
+        border: 1px solid #e9ecef;
+        padding: 35px;
+        box-shadow: 0 10px 35px rgba(15, 23, 42, .06);
+        margin-bottom: 30px;
+    }
+
+    .profile-top {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .master-avatar {
+        width: 105px;
+        height: 105px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6b35, #ff8a5b);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 42px;
+        flex-shrink: 0;
+        box-shadow: 0 10px 25px rgba(255, 107, 53, .25);
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .master-name {
+        font-size: 32px;
+        font-weight: 800;
+        color: #172033;
+        margin-bottom: 6px;
+    }
+
+    .master-profession {
+        font-size: 18px;
+        color: #667085;
+        margin-bottom: 12px;
+    }
+
+    .verified-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #ecfdf3;
+        color: #039855;
+        border-radius: 50px;
+        padding: 7px 13px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .rating-box {
+        text-align: center;
+        min-width: 120px;
+        padding: 18px;
+        background: #fff8f5;
+        border-radius: 18px;
+    }
+
+    .rating-number {
+        font-size: 30px;
+        font-weight: 800;
+        color: #172033;
+    }
+
+    .rating-stars {
+        color: #ffb000;
+        font-size: 18px;
+        margin: 3px 0;
+    }
+
+    .rating-text {
+        color: #667085;
+        font-size: 13px;
+    }
+
+    .profile-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .stat-item {
+        background: #f8fafc;
+        border: 1px solid #eef0f3;
+        border-radius: 16px;
+        padding: 18px;
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff1eb;
+        color: #ff6b35;
+        border-radius: 12px;
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+
+    .stat-title {
+        font-size: 13px;
+        color: #667085;
+        margin-bottom: 3px;
+    }
+
+    .stat-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .section-card {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 24px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, .04);
+    }
+
+    .section-title {
+        font-size: 23px;
+        font-weight: 800;
+        color: #172033;
+        margin-bottom: 20px;
+    }
+
+    .bio-text {
+        color: #667085;
+        line-height: 1.8;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .service-card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid #e9ecef;
+        border-radius: 18px;
+        overflow: hidden;
+        background: white;
+        transition: .25s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, .09);
+        border-color: #ffb49b;
+        color: inherit;
+    }
+
+    .service-image {
+        height: 180px;
+        background: #f3f4f6;
+        overflow: hidden;
+    }
+
+    .service-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .service-placeholder {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #98a2b3;
+        font-size: 40px;
+    }
+
+    .service-body {
+        padding: 18px;
+    }
+
+    .service-category {
+        color: #ff6b35;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 7px;
+        text-transform: uppercase;
+    }
+
+    .service-title {
+        font-size: 18px;
+        font-weight: 750;
+        color: #172033;
+        margin-bottom: 10px;
+    }
+
+    .service-description {
+        color: #667085;
+        font-size: 13px;
+        line-height: 1.6;
+        height: 42px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+    .service-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid #f0f1f3;
+        padding-top: 14px;
+    }
+
+    .service-price {
+        font-size: 17px;
+        font-weight: 800;
+        color: #172033;
+    }
+
+    .price-type {
+        color: #98a2b3;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .open-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff1eb;
+        color: #ff6b35;
+    }
+
+    .empty-services {
+        text-align: center;
+        padding: 45px 20px;
+        color: #98a2b3;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: #667085;
+        font-weight: 600;
+        margin-bottom: 20px;
+        transition: .2s;
+    }
+
+    .back-btn:hover {
+        color: #ff6b35;
+    }
+
+    @media (max-width: 992px) {
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .profile-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .master-page {
+            padding: 25px 0 50px;
+        }
+
+        .master-profile,
+        .section-card {
+            padding: 22px;
+            border-radius: 18px;
+        }
+
+        .profile-top {
+            align-items: flex-start;
+        }
+
+        .master-avatar {
+            width: 80px;
+            height: 80px;
+            font-size: 32px;
+        }
+
+        .master-name {
+            font-size: 24px;
+        }
+
+        .rating-box {
+            display: none;
+        }
+
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .profile-top {
+            flex-direction: column;
+        }
+
+        .profile-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+
+<div class="master-page">
+
+    <div class="container">
+
+        <a href="{% url 'home' %}" class="back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Bosh sahifaga qaytish
+        </a>
+
+
+        <!-- MASTER PROFILE -->
+
+        <div class="master-profile">
+
+            <div class="profile-top">
+
+                <div class="master-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="master-name">
+                        {{ master.user.get_full_name|default:master.user.username }}
+                    </div>
+
+                    <div class="master-profession">
+                        {{ master.profession }}
+                    </div>
+
+                    {% if master.is_verified %}
+                        <span class="verified-badge">
+                            <i class="bi bi-patch-check-fill"></i>
+                            Tasdiqlangan usta
+                        </span>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="rating-box">
+
+                    <div class="rating-number">
+                        {{ master.rating|default:"0.00" }}
+                    </div>
+
+                    <div class="rating-stars">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                    </div>
+
+                    <div class="rating-text">
+                        Reyting
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="profile-stats">
+
+                <div class="stat-item">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-award"></i>
+                    </div>
+
+                    <div class="stat-title">
+                        Tajriba
+                    </div>
+
+                    <div class="stat-value">
+                        {{ master.experience_years }} yil
+                    </div>
+
+                </div>
+
+
+                <div class="stat-item">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+
+                    <div class="stat-title">
+                        Xizmat hududi
+                    </div>
+
+                    <div class="stat-value">
+                        {{ master.service_area|default:"Ko‘rsatilmagan" }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat-item">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+
+                    <div class="stat-title">
+                        Bajarilgan ishlar
+                    </div>
+
+                    <div class="stat-value">
+                        {{ master.completed_orders }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat-item">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+
+                    <div class="stat-title">
+                        Soatlik narx
+                    </div>
+
+                    <div class="stat-value">
+                        {% if master.hourly_rate %}
+                            {{ master.hourly_rate|floatformat:0 }} so‘m
+                        {% else %}
+                            Kelishiladi
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ABOUT -->
+
+        <div class="section-card">
+
+            <div class="section-title">
+                <i class="bi bi-person-lines-fill me-2"></i>
+                Usta haqida
+            </div>
+
+            {% if master.bio %}
+
+                <p class="bio-text">
+                    {{ master.bio }}
+                </p>
+
+            {% else %}
+
+                <p class="bio-text">
+                    Ushbu usta haqida qo‘shimcha ma’lumot kiritilmagan.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- SERVICES -->
+
+        <div class="section-card">
+
+            <div class="section-title">
+                <i class="bi bi-tools me-2"></i>
+                {{ master.user.get_full_name|default:master.user.username }} xizmatlari
+            </div>
+
+
+            {% if services %}
+
+                <div class="services-grid">
+
+                    {% for service in services %}
+
+                        <a
+                            href="{% url 'service_detail' service.id %}"
+                            class="service-card"
+                        >
+
+                            <div class="service-image">
+
+                                {% if service.image %}
+
+                                    <img
+                                        src="{{ service.image.url }}"
+                                        alt="{{ service.title }}"
+                                    >
+
+                                {% else %}
+
+                                    <div class="service-placeholder">
+                                        <i class="bi bi-tools"></i>
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="service-body">
+
+                                <div class="service-category">
+
+                                    {% if service.category %}
+                                        {{ service.category.name }}
+                                    {% else %}
+                                        Xizmat
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="service-title">
+                                    {{ service.title }}
+                                </div>
+
+
+                                <div class="service-description">
+                                    {{ service.description|default:"Xizmat haqida ma'lumot mavjud emas." }}
+                                </div>
+
+
+                                <div class="service-footer">
+
+                                    <div>
+
+                                        {% if service.price %}
+
+                                            <div class="service-price">
+                                                {{ service.price|floatformat:0 }} so‘m
+                                            </div>
+
+                                        {% else %}
+
+                                            <div class="service-price">
+                                                Kelishiladi
+                                            </div>
+
+                                        {% endif %}
+
+                                        <div class="price-type">
+                                            {{ service.get_price_type_display }}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="open-btn">
+                                        <i class="bi bi-arrow-right"></i>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-services">
+
+                    <i
+                        class="bi bi-tools"
+                        style="font-size: 45px;"
+                    ></i>
+
+                    <h5 class="mt-3">
+                        Hozircha xizmatlar mavjud emas
+                    </h5>
+
+                    <p>
+                        Bu usta hali xizmatlarini joylashtirmagan.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

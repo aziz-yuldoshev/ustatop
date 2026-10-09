@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bildirishnomalar — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="mb-5">
+
+        <span class="badge bg-primary mb-3">
+            🔔 USTATOP
+        </span>
+
+        <h1 class="fw-bold">
+            Bildirishnomalar
+        </h1>
+
+        <p class="text-muted">
+            Buyurtmalaringiz va akkauntingizdagi yangiliklar.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            {% for notification in notifications %}
+
+                <a
+                    href="{% url 'notification_read' notification.id %}"
+                    class="text-decoration-none text-dark"
+                >
+
+                    <div
+                        class="card border-0 shadow-sm mb-3
+                        {% if not notification.is_read %}
+                            border-start border-4 border-primary
+                        {% endif %}"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div class="d-flex gap-3">
+
+                                <div class="fs-3">
+                                    {% if notification.notification_type == "order" %}
+                                        📋
+                                    {% elif notification.notification_type == "review" %}
+                                        ⭐
+                                    {% elif notification.notification_type == "message" %}
+                                        💬
+                                    {% else %}
+                                        🔔
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="flex-grow-1">
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <h5 class="fw-bold mb-1">
+                                            {{ notification.title }}
+                                        </h5>
+
+                                        <small class="text-muted">
+                                            {{ notification.created_at|date:"d.m.Y H:i" }}
+                                        </small>
+
+                                    </div>
+
+                                    <p class="text-muted mb-0">
+                                        {{ notification.message }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            {% empty %}
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body text-center py-5">
+
+                        <div class="display-4 mb-3">
+                            🔔
+                        </div>
+
+                        <h3 class="fw-bold">
+                            Bildirishnomalar yo‘q
+                        </h3>
+
+                        <p class="text-muted mb-0">
+                            Yangi xabarlar shu yerda paydo bo‘ladi.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

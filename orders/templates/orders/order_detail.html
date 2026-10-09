@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+
+{% block title %}
+Buyurtma #{{ order.id }} — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <span class="badge bg-primary mb-2">
+                Buyurtma #{{ order.id }}
+            </span>
+
+            <h1 class="fw-bold mb-1">
+                {{ order.service.title }}
+            </h1>
+
+            <p class="text-muted mb-0">
+                {{ order.created_at|date:"d.m.Y H:i" }}
+            </p>
+        </div>
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="btn btn-outline-secondary"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Buyurtma ma'lumotlari
+                    </h4>
+
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small">
+                                Xizmat
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ order.service.title }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small">
+                                Narx
+                            </div>
+
+                            <div class="fw-bold fs-5">
+                                {{ order.agreed_price|floatformat:0 }}
+                                so‘m
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small">
+                                Mijoz
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ order.customer.get_full_name|default:order.customer.username }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small">
+                                Telefon
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ order.phone }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12">
+
+                            <div class="text-muted small">
+                                Manzil
+                            </div>
+
+                            <div class="fw-semibold">
+                                📍 {{ order.address }}
+                            </div>
+
+                        </div>
+
+
+                        {% if order.scheduled_at %}
+
+                        <div class="col-md-6">
+
+                            <div class="text-muted small">
+                                Rejalashtirilgan vaqt
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ order.scheduled_at|date:"d.m.Y H:i" }}
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        {% if order.customer_note %}
+
+                        <div class="col-12">
+
+                            <div class="text-muted small">
+                                Mijoz izohi
+                            </div>
+
+                            <div class="bg-light rounded-3 p-3">
+                                {{ order.customer_note }}
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% if request.user == order.service.master.user %}
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-3">
+                        🔧 Buyurtmani boshqarish
+                    </h4>
+
+
+                    {% if order.status == "pending" %}
+
+                        <p class="text-muted">
+                            Mijozdan yangi buyurtma kelgan.
+                            Uni qabul qilishingiz yoki rad etishingiz mumkin.
+                        </p>
+
+                        <div class="d-flex gap-2">
+
+                            <form
+                                method="post"
+                                action="{% url 'accept_order' order.id %}"
+                            >
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-success"
+                                >
+                                    ✓ Qabul qilish
+                                </button>
+
+                            </form>
+
+
+                            <form
+                                method="post"
+                                action="{% url 'reject_order' order.id %}"
+                            >
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-danger"
+                                >
+                                    ✕ Rad etish
+                                </button>
+
+                            </form>
+
+                        </div>
+
+
+                    {% elif order.status == "accepted" %}
+
+                        <p class="text-muted">
+                            Buyurtma qabul qilingan.
+                            Ishni boshlashingiz mumkin.
+                        </p>
+
+                        <form
+                            method="post"
+                            action="{% url 'start_order' order.id %}"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                🔧 Ishni boshlash
+                            </button>
+
+                        </form>
+
+
+                    {% elif order.status == "in_progress" %}
+
+                        <p class="text-muted">
+                            Buyurtma hozir jarayonda.
+                        </p>
+
+                        <form
+                            method="post"
+                            action="{% url 'complete_order' order.id %}"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-success"
+                            >
+                                ✓ Ishni tugatish
+                            </button>
+
+                        </form>
+
+
+                    {% elif order.status == "completed" %}
+
+                        <div class="alert alert-success mb-0">
+                            🎉 Bu buyurtma muvaffaqiyatli tugatilgan.
+                        </div>
+
+
+                    {% elif order.status == "rejected" %}
+
+                        <div class="alert alert-danger mb-0">
+                            Bu buyurtma rad etilgan.
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if request.user == order.customer %}
+
+            <div class="card border-0 shadow-sm mt-4">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold">
+                        ⭐ Xizmat haqida fikringiz
+                    </h4>
+
+                    {% if order.status == "completed" %}
+
+                        {% if order.review %}
+
+                            <div class="alert alert-success mt-3 mb-0">
+                                Siz ushbu buyurtmaga sharh qoldirgansiz.
+                            </div>
+
+                        {% else %}
+
+                            <p class="text-muted">
+                                Usta xizmatini baholang.
+                            </p>
+
+                            <a
+                                href="{% url 'create_review' order.id %}"
+                                class="btn btn-warning"
+                            >
+                                ⭐ Sharh qoldirish
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <p class="text-muted mb-0">
+                            Sharh qoldirish uchun buyurtma tugallangan
+                            bo‘lishi kerak.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Buyurtma holati
+                    </h4>
+
+
+                    <div class="mb-4">
+
+                        {% if order.status == "pending" %}
+
+                            <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                ⏳ Kutilmoqda
+                            </span>
+
+                        {% elif order.status == "accepted" %}
+
+                            <span class="badge bg-info fs-6 px-3 py-2">
+                                ✓ Qabul qilindi
+                            </span>
+
+                        {% elif order.status == "in_progress" %}
+
+                            <span class="badge bg-primary fs-6 px-3 py-2">
+                                🔧 Jarayonda
+                            </span>
+
+                        {% elif order.status == "completed" %}
+
+                            <span class="badge bg-success fs-6 px-3 py-2">
+                                ✓ Tugallandi
+                            </span>
+
+                        {% elif order.status == "cancelled" %}
+
+                            <span class="badge bg-secondary fs-6 px-3 py-2">
+                                Bekor qilindi
+                            </span>
+
+                        {% elif order.status == "rejected" %}
+
+                            <span class="badge bg-danger fs-6 px-3 py-2">
+                                Rad etildi
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="mb-3">
+
+                        <div class="text-muted small">
+                            Usta
+                        </div>
+
+                        <div class="fw-semibold">
+                            {{ order.service.master.user.get_full_name|default:order.service.master.user.username }}
+                        </div>
+
+                        <div class="text-muted">
+                            {{ order.service.master.profession }}
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="text-muted small">
+                            Reyting
+                        </div>
+
+                        <div class="text-warning fs-5">
+                            ⭐ {{ order.service.master.rating|floatformat:1 }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

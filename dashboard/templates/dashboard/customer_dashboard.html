@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mening kabinetim — USTATOP
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="mb-5">
+        <span class="badge bg-primary mb-3">
+            👋 Shaxsiy kabinet
+        </span>
+
+        <h1 class="fw-bold">
+            Salom, {{ request.user.get_full_name|default:request.user.username }}!
+        </h1>
+
+        <p class="text-muted">
+            Buyurtmalaringiz va xizmatlaringizni shu yerdan boshqaring.
+        </p>
+    </div>
+
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="fs-2 mb-2">📋</div>
+
+                    <div class="text-muted">
+                        Jami buyurtmalar
+                    </div>
+
+                    <div class="display-6 fw-bold">
+                        {{ total_orders }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="fs-2 mb-2">⏳</div>
+
+                    <div class="text-muted">
+                        Kutilmoqda
+                    </div>
+
+                    <div class="display-6 fw-bold">
+                        {{ pending_orders }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="fs-2 mb-2">⚡</div>
+
+                    <div class="text-muted">
+                        Faol buyurtmalar
+                    </div>
+
+                    <div class="display-6 fw-bold">
+                        {{ active_orders }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="fs-2 mb-2">✅</div>
+
+                    <div class="text-muted">
+                        Tugallangan
+                    </div>
+
+                    <div class="display-6 fw-bold">
+                        {{ completed_orders }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="fw-bold mb-1">
+                So‘nggi buyurtmalar
+            </h3>
+
+            <p class="text-muted mb-0">
+                Oxirgi faoliyatlaringiz
+            </p>
+        </div>
+
+        <a
+            href="{% url 'my_orders' %}"
+            class="btn btn-primary"
+        >
+            Barchasini ko‘rish
+        </a>
+
+    </div>
+
+
+    {% for order in recent_orders %}
+
+        <div class="card border-0 shadow-sm mb-3">
+
+            <div class="card-body p-4">
+
+                <div class="row align-items-center">
+
+                    <div class="col-lg-5">
+
+                        <div class="fw-bold">
+                            {{ order.service.title }}
+                        </div>
+
+                        <div class="text-muted small">
+                            Usta:
+                            {{ order.service.master.user.get_full_name|default:order.service.master.user.username }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-2 mt-3 mt-lg-0">
+
+                        <strong>
+                            {{ order.agreed_price|floatformat:0 }} so‘m
+                        </strong>
+
+                    </div>
+
+
+                    <div class="col-lg-3 mt-3 mt-lg-0">
+
+                        {% if order.status == "pending" %}
+                            <span class="badge bg-warning text-dark">
+                                Kutilmoqda
+                            </span>
+
+                        {% elif order.status == "accepted" %}
+                            <span class="badge bg-info">
+                                Qabul qilindi
+                            </span>
+
+                        {% elif order.status == "in_progress" %}
+                            <span class="badge bg-primary">
+                                Jarayonda
+                            </span>
+
+                        {% elif order.status == "completed" %}
+                            <span class="badge bg-success">
+                                Tugallandi
+                            </span>
+
+                        {% elif order.status == "cancelled" %}
+                            <span class="badge bg-secondary">
+                                Bekor qilindi
+                            </span>
+
+                        {% else %}
+                            <span class="badge bg-danger">
+                                Rad etildi
+                            </span>
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-lg-2 mt-3 mt-lg-0">
+
+                        <a
+                            href="{% url 'order_detail' order.id %}"
+                            class="btn btn-outline-primary btn-sm"
+                        >
+                            Ko‘rish
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <div class="display-5 mb-3">
+                    📭
+                </div>
+
+                <h4>
+                    Hozircha buyurtmalar yo‘q
+                </h4>
+
+                <p class="text-muted">
+                    Kerakli xizmatni topib, birinchi buyurtmangizni bering.
+                </p>
+
+                <a
+                    href="{% url 'home' %}"
+                    class="btn btn-primary"
+                >
+                    Xizmatlarni ko‘rish
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

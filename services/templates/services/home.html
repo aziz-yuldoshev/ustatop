@@ -1,0 +1,2501 @@
+{% extends "base.html" %}
+
+{% block title %}
+USTATOP — Kerakli ustani toping
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   USTATOP HOME — PREMIUM URBAN
+========================================================= */
+
+:root {
+    --orange: #FF6B35;
+    --orange-dark: #E95524;
+    --orange-light: #FFF1EB;
+
+    --purple: #5B3DF5;
+    --purple-light: #F0EDFF;
+
+    --green: #17804A;
+    --green-light: #EAF8F0;
+
+    --navy: #111827;
+    --text: #344054;
+    --muted: #667085;
+
+    --border: #EAECF0;
+
+    --white: #FFFFFF;
+    --surface: #F8F9FB;
+
+    --shadow-sm:
+        0 4px 14px rgba(16, 24, 40, 0.05);
+
+    --shadow-md:
+        0 12px 30px rgba(16, 24, 40, 0.08);
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.home-page {
+    padding-bottom: 80px;
+}
+
+.container-xl-custom {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero-section {
+    position: relative;
+    padding: 82px 0 55px;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 460px;
+    height: 460px;
+
+    right: -180px;
+    top: -190px;
+
+    border-radius: 50%;
+
+    background: var(--orange-light);
+
+    z-index: -1;
+}
+
+.hero-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    left: -180px;
+    bottom: -180px;
+
+    border-radius: 50%;
+
+    background: var(--purple-light);
+
+    z-index: -1;
+}
+
+.hero-grid {
+    display: grid;
+
+    grid-template-columns: 1.15fr 0.85fr;
+
+    gap: 50px;
+
+    align-items: center;
+}
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 13px;
+
+    border-radius: 999px;
+
+    background: var(--orange-light);
+
+    color: var(--orange-dark);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+
+    margin-bottom: 20px;
+}
+
+.hero-badge-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--orange);
+}
+
+.hero-title {
+    margin: 0;
+
+    font-family: "Manrope", sans-serif;
+
+    color: var(--navy);
+
+    font-size: clamp(42px, 6vw, 74px);
+
+    line-height: 0.98;
+
+    letter-spacing: -4px;
+
+    font-weight: 800;
+}
+
+.hero-title span {
+    color: var(--orange);
+}
+
+.hero-description {
+    max-width: 600px;
+
+    margin-top: 24px;
+
+    color: var(--muted);
+
+    font-size: 16px;
+
+    line-height: 1.75;
+}
+
+.hero-actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 30px;
+}
+
+.hero-primary {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 13px 19px;
+
+    border-radius: 11px;
+
+    background: var(--navy);
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    transition: 0.2s ease;
+}
+
+.hero-primary:hover {
+    color: white;
+
+    background: var(--orange);
+
+    transform: translateY(-1px);
+}
+
+.hero-secondary {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 13px 19px;
+
+    border-radius: 11px;
+
+    background: white;
+
+    color: var(--navy);
+
+    border: 1px solid var(--border);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.hero-secondary:hover {
+    color: var(--orange);
+
+    border-color: rgba(255,107,53,0.35);
+
+    background: var(--orange-light);
+}
+
+
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.hero-visual {
+    position: relative;
+
+    min-height: 390px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-circle {
+    width: 330px;
+    height: 330px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #FFF4EF,
+            #F0EDFF
+        );
+
+    position: relative;
+}
+
+.hero-card {
+    position: absolute;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow: var(--shadow-md);
+}
+
+.hero-main-card {
+    width: 245px;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-4deg);
+
+    padding: 18px;
+}
+
+.hero-main-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: var(--orange-light);
+
+    color: var(--orange);
+
+    font-size: 25px;
+
+    margin-bottom: 14px;
+}
+
+.hero-main-title {
+    font-family: "Manrope", sans-serif;
+
+    color: var(--navy);
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+.hero-main-text {
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+.hero-rating-card {
+    right: 0;
+
+    top: 30px;
+
+    padding: 13px 15px;
+
+    transform: rotate(4deg);
+}
+
+.hero-rating-stars {
+    color: #F79009;
+
+    font-size: 13px;
+}
+
+.hero-rating-text {
+    margin-top: 4px;
+
+    color: var(--navy);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+.hero-location-card {
+    left: 5px;
+
+    bottom: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 12px 14px;
+
+    transform: rotate(-3deg);
+}
+
+.hero-location-icon {
+    width: 31px;
+    height: 31px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: var(--purple-light);
+
+    color: var(--purple);
+}
+
+.hero-location-text {
+    color: var(--navy);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+.hero-location-sub {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-section {
+    position: relative;
+
+    z-index: 5;
+
+    margin-top: 5px;
+}
+
+.search-wrapper {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    padding: 10px;
+
+    box-shadow:
+        0 15px 45px rgba(16,24,40,0.10);
+}
+
+.search-main {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 17px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.search-main i {
+    color: var(--orange);
+
+    font-size: 20px;
+}
+
+.search-main input {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    color: var(--navy);
+
+    font-size: 15px;
+
+    background: transparent;
+}
+
+.search-main input::placeholder {
+    color: #98A2B3;
+}
+
+.search-filters {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr
+        auto;
+
+    gap: 9px;
+
+    padding: 10px 0 0;
+}
+
+.search-field {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 46px;
+
+    padding: 0 12px;
+
+    background: #F8F9FB;
+
+    border: 1px solid transparent;
+
+    border-radius: 10px;
+
+    transition: 0.2s ease;
+}
+
+.search-field:focus-within {
+    background: white;
+
+    border-color: rgba(255,107,53,0.35);
+}
+
+.search-field i {
+    color: #98A2B3;
+
+    font-size: 14px;
+}
+
+.search-field select,
+.search-field input {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--navy);
+
+    font-size: 12px;
+}
+
+.search-field select {
+    cursor: pointer;
+}
+
+.price-fields {
+    display: grid;
+
+    grid-template-columns: 1fr auto 1fr;
+
+    align-items: center;
+
+    gap: 6px;
+
+    min-height: 46px;
+
+    padding: 0 10px;
+
+    background: #F8F9FB;
+
+    border-radius: 10px;
+}
+
+.price-fields input {
+    width: 100%;
+
+    min-width: 0;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-size: 12px;
+
+    color: var(--navy);
+}
+
+.price-fields span {
+    color: #98A2B3;
+
+    font-size: 11px;
+}
+
+.search-button {
+    min-height: 46px;
+
+    padding: 0 19px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: var(--orange);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.search-button:hover {
+    background: var(--orange-dark);
+
+    transform: translateY(-1px);
+}
+
+.clear-search {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    margin: 12px 5px 2px;
+
+    color: var(--orange);
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-section {
+    padding: 45px 0 20px;
+}
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    border-top: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.stat-box {
+    padding: 25px 20px;
+
+    text-align: center;
+
+    border-right: 1px solid var(--border);
+}
+
+.stat-box:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    font-family: "Manrope", sans-serif;
+
+    color: var(--navy);
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.stat-label {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SECTION HEAD
+========================================================= */
+
+.section {
+    padding-top: 75px;
+}
+
+.section-head {
+    display: flex;
+
+    align-items: end;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+.section-kicker {
+    color: var(--orange);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+}
+
+.section-title {
+    margin: 6px 0 0;
+
+    font-family: "Manrope", sans-serif;
+
+    color: var(--navy);
+
+    font-size: 32px;
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 800;
+}
+
+.section-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--navy);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+.section-link:hover {
+    color: var(--orange);
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+.category-grid {
+    display: grid;
+
+    grid-template-columns: repeat(6, 1fr);
+
+    gap: 12px;
+}
+
+.category-card {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 135px;
+
+    padding: 18px 10px;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    color: var(--navy);
+
+    text-align: center;
+
+    transition: 0.22s ease;
+}
+
+.category-card:hover {
+    color: var(--navy);
+
+    transform: translateY(-4px);
+
+    border-color: rgba(255,107,53,0.25);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.category-icon {
+    width: 49px;
+    height: 49px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    border-radius: 13px;
+
+    background: var(--orange-light);
+
+    color: var(--orange);
+
+    font-size: 20px;
+}
+
+.category-name {
+    font-size: 11px;
+
+    line-height: 1.4;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.service-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 17px;
+}
+
+.service-card {
+    display: block;
+
+    overflow: hidden;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    color: inherit;
+
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+.service-card:hover {
+    color: inherit;
+
+    text-decoration: none;
+
+    transform: translateY(-5px);
+
+    box-shadow: var(--shadow-md);
+
+    border-color: rgba(255,107,53,0.2);
+}
+
+.service-image {
+    height: 205px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #F2F4F7,
+            #EAECF0
+        );
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: 0.35s ease;
+}
+
+.service-card:hover .service-image img {
+    transform: scale(1.05);
+}
+
+.service-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #98A2B3;
+
+    font-size: 42px;
+}
+
+.service-category {
+    position: absolute;
+
+    top: 13px;
+    left: 13px;
+
+    padding: 6px 9px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.95);
+
+    color: var(--navy);
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+.service-verified {
+    position: absolute;
+
+    top: 13px;
+    right: 13px;
+
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: var(--green-light);
+
+    color: var(--green);
+
+    font-size: 12px;
+}
+
+.service-body {
+    padding: 18px;
+}
+
+.service-title {
+    color: var(--navy);
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.35;
+
+    font-weight: 800;
+}
+
+.service-master {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 11px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.master-mini-avatar {
+    width: 26px;
+    height: 26px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background: #F2F4F7;
+
+    color: #98A2B3;
+
+    font-size: 11px;
+}
+
+.master-mini-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.service-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 17px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid var(--border);
+}
+
+.service-price {
+    color: var(--navy);
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.service-price small {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 500;
+}
+
+.service-arrow {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: var(--navy);
+
+    color: white;
+
+    font-size: 12px;
+
+    transition: 0.2s ease;
+}
+
+.service-card:hover .service-arrow {
+    background: var(--orange);
+
+    transform: rotate(5deg);
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-state {
+    padding: 65px 20px;
+
+    background: white;
+
+    border: 1px dashed #D0D5DD;
+
+    border-radius: 18px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 15px;
+
+    border-radius: 15px;
+
+    background: var(--orange-light);
+
+    color: var(--orange);
+
+    font-size: 23px;
+}
+
+.empty-title {
+    color: var(--navy);
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+.empty-text {
+    max-width: 420px;
+
+    margin: 7px auto 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MASTER GRID
+========================================================= */
+
+.master-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+
+/*
+    MUHIM:
+    Usta kartasi endi <a> bo‘ladi.
+    Shuning uchun linkning standart ko‘rinishini
+    olib tashlaymiz.
+*/
+
+.master-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    color: inherit;
+
+    text-decoration: none;
+
+    transition: 0.22s ease;
+}
+
+.master-card:hover {
+    color: inherit;
+
+    text-decoration: none;
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow-sm);
+
+    border-color: rgba(255,107,53,0.25);
+}
+
+.master-avatar {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange-light),
+            var(--purple-light)
+        );
+
+    color: var(--orange);
+
+    font-size: 21px;
+}
+
+.master-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.master-info {
+    min-width: 0;
+}
+
+.master-name {
+    color: var(--navy);
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+.master-profession {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.master-details {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.master-details strong {
+    color: var(--navy);
+}
+
+.master-verified {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    color: var(--green);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta-section {
+    margin-top: 85px;
+}
+
+.cta-box {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 50px;
+
+    border-radius: 24px;
+
+    background: var(--navy);
+
+    color: white;
+}
+
+.cta-box::before {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    right: -80px;
+    top: -130px;
+
+    border-radius: 50%;
+
+    background: var(--orange);
+
+    opacity: 0.12;
+}
+
+.cta-box::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    left: 45%;
+    bottom: -120px;
+
+    border-radius: 50%;
+
+    background: var(--purple);
+
+    opacity: 0.12;
+}
+
+.cta-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 650px;
+}
+
+.cta-kicker {
+    color: #FFB49B;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+.cta-title {
+    margin: 8px 0 0;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 34px;
+
+    line-height: 1.15;
+
+    letter-spacing: -1.2px;
+
+    font-weight: 800;
+}
+
+.cta-text {
+    margin-top: 12px;
+
+    color: #98A2B3;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.cta-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 23px;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: var(--navy);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    transition: 0.2s ease;
+}
+
+.cta-button:hover {
+    color: var(--navy);
+
+    background: var(--orange-light);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        min-height: 330px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .master-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .search-filters {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .search-button {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-box:nth-child(2) {
+        border-right: none;
+    }
+
+    .stat-box:nth-child(-n+2) {
+        border-bottom: 1px solid var(--border);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .container-xl-custom {
+        width: min(100% - 26px, 1180px);
+    }
+
+    .hero-section {
+        padding-top: 50px;
+    }
+
+    .hero-title {
+        font-size: 43px;
+
+        letter-spacing: -2.5px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+    }
+
+    .hero-visual {
+        min-height: 290px;
+    }
+
+    .hero-circle {
+        width: 250px;
+        height: 250px;
+    }
+
+    .hero-main-card {
+        width: 205px;
+    }
+
+    .hero-rating-card {
+        right: 0;
+        top: 10px;
+    }
+
+    .hero-location-card {
+        left: 0;
+        bottom: 15px;
+    }
+
+    .search-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .master-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding-top: 55px;
+    }
+
+    .section-head {
+        align-items: start;
+
+        flex-direction: column;
+    }
+
+    .section-title {
+        font-size: 27px;
+    }
+
+    .cta-box {
+        padding: 32px 24px;
+    }
+
+    .cta-title {
+        font-size: 27px;
+    }
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="home-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero-section">
+
+        <div class="container-xl-custom">
+
+            <div class="hero-grid">
+
+
+                <!-- LEFT -->
+
+                <div class="hero-content">
+
+                    <div class="hero-badge">
+
+                        <span class="hero-badge-dot"></span>
+
+                        Ishonchli ustalar platformasi
+
+                    </div>
+
+
+                    <h1 class="hero-title">
+
+                        Kerakli ustani
+                        <span>oson toping.</span>
+
+                    </h1>
+
+
+                    <p class="hero-description">
+
+                        Uy, ofis va biznesingiz uchun kerakli
+                        mutaxassisni toping. Xizmatlarni solishtiring,
+                        ustaning profilini ko‘ring va buyurtma bering.
+
+                    </p>
+
+
+                    <div class="hero-actions">
+
+                        <a
+                            href="#services"
+                            class="hero-primary"
+                        >
+
+                            <i class="bi bi-search"></i>
+
+                            Usta qidirish
+
+                        </a>
+
+
+                        <a
+                            href="#masters"
+                            class="hero-secondary"
+                        >
+
+                            <i class="bi bi-people"></i>
+
+                            Ustalarni ko‘rish
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT -->
+
+                <div class="hero-visual">
+
+                    <div class="hero-circle"></div>
+
+
+                    <div class="hero-card hero-main-card">
+
+                        <div class="hero-main-icon">
+
+                            <i class="bi bi-tools"></i>
+
+                        </div>
+
+
+                        <div class="hero-main-title">
+
+                            Ishonchli usta
+
+                        </div>
+
+
+                        <div class="hero-main-text">
+
+                            Professional mutaxassislar
+                            va sifatli xizmatlar bir joyda.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-card hero-rating-card">
+
+                        <div class="hero-rating-stars">
+
+                            ★★★★★
+
+                        </div>
+
+                        <div class="hero-rating-text">
+
+                            Yuqori reytingli ustalar
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-card hero-location-card">
+
+                        <div class="hero-location-icon">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="hero-location-text">
+
+                                O‘zingizga yaqin usta
+
+                            </div>
+
+                            <div class="hero-location-sub">
+
+                                Hudud bo‘yicha qidirish
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SEARCH
+    ====================================================== -->
+
+    <section class="search-section">
+
+        <div class="container-xl-custom">
+
+            <div class="search-wrapper">
+
+                <form
+                    method="GET"
+                    action="{% url 'home' %}"
+                >
+
+                    <div class="search-main">
+
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ search }}"
+                            placeholder="Qanday usta yoki xizmat qidiryapsiz?"
+                        >
+
+                    </div>
+
+
+                    <div class="search-filters">
+
+                        <!-- CATEGORY -->
+
+                        <div class="search-field">
+
+                            <i class="bi bi-grid-3x3-gap"></i>
+
+                            <select name="category">
+
+                                <option value="">
+                                    Barcha kategoriyalar
+                                </option>
+
+
+                                {% for category in categories %}
+
+                                    <option
+                                        value="{{ category.id }}"
+                                        {% if selected_category == category.id|stringformat:"s" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        {{ category.name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- AREA -->
+
+                        <div class="search-field">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <input
+                                type="text"
+                                name="area"
+                                value="{{ area }}"
+                                placeholder="Hudud"
+                            >
+
+                        </div>
+
+
+                        <!-- PRICE -->
+
+                        <div class="price-fields">
+
+                            <input
+                                type="number"
+                                name="min_price"
+                                value="{{ min_price }}"
+                                placeholder="Min so‘m"
+                                min="0"
+                            >
+
+                            <span>—</span>
+
+                            <input
+                                type="number"
+                                name="max_price"
+                                value="{{ max_price }}"
+                                placeholder="Max so‘m"
+                                min="0"
+                            >
+
+                        </div>
+
+
+                        <!-- BUTTON -->
+
+                        <button
+                            type="submit"
+                            class="search-button"
+                        >
+
+                            <i class="bi bi-search"></i>
+
+                            Qidirish
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                {% if search or selected_category or area or min_price or max_price %}
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="clear-search"
+                    >
+
+                        <i class="bi bi-x-circle"></i>
+
+                        Filtrlarni tozalash
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATS
+    ====================================================== -->
+
+    <section class="stats-section">
+
+        <div class="container-xl-custom">
+
+            <div class="stats-grid">
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        {{ services|length }}+
+                    </div>
+
+                    <div class="stat-label">
+                        Mavjud xizmatlar
+                    </div>
+
+                </div>
+
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        {{ masters|length }}+
+                    </div>
+
+                    <div class="stat-label">
+                        Faol ustalar
+                    </div>
+
+                </div>
+
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        24/7
+                    </div>
+
+                    <div class="stat-label">
+                        Platforma
+                    </div>
+
+                </div>
+
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        100%
+                    </div>
+
+                    <div class="stat-label">
+                        Raqamli xizmat
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CATEGORIES
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="container-xl-custom">
+
+            <div class="section-head">
+
+                <div>
+
+                    <div class="section-kicker">
+                        Kategoriyalar
+                    </div>
+
+                    <h2 class="section-title">
+                        Nima xizmat kerak?
+                    </h2>
+
+                </div>
+
+
+                <a
+                    href="#services"
+                    class="section-link"
+                >
+
+                    Barcha xizmatlar
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            <div class="category-grid">
+
+                {% for category in categories %}
+
+                    <a
+                        href="{% url 'home' %}?category={{ category.id }}"
+                        class="category-card"
+                    >
+
+                        <div class="category-icon">
+
+                            {% if category.icon %}
+
+                                <i class="{{ category.icon }}"></i>
+
+                            {% else %}
+
+                                <i class="bi bi-tools"></i>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="category-name">
+
+                            {{ category.name }}
+
+                        </div>
+
+                    </a>
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-grid"></i>
+
+                        </div>
+
+                        <div class="empty-title">
+
+                            Kategoriyalar hali yo‘q
+
+                        </div>
+
+                        <div class="empty-text">
+
+                            Admin panel orqali xizmat kategoriyalarini
+                            qo‘shishingiz mumkin.
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SERVICES
+    ====================================================== -->
+
+    <section
+        class="section"
+        id="services"
+    >
+
+        <div class="container-xl-custom">
+
+            <div class="section-head">
+
+                <div>
+
+                    <div class="section-kicker">
+                        Xizmatlar
+                    </div>
+
+                    <h2 class="section-title">
+                        Siz uchun tanlangan xizmatlar
+                    </h2>
+
+                </div>
+
+
+                {% if search or selected_category or area or min_price or max_price %}
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="section-link"
+                    >
+
+                        Barcha xizmatlar
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if services %}
+
+                <div class="service-grid">
+
+                    {% for service in services %}
+
+                        <a
+                            href="{% url 'service_detail' service.id %}"
+                            class="service-card"
+                        >
+
+                            <div class="service-image">
+
+                                {% if service.image %}
+
+                                    <img
+                                        src="{{ service.image.url }}"
+                                        alt="{{ service.title }}"
+                                    >
+
+                                {% else %}
+
+                                    <div class="service-placeholder">
+
+                                        <i class="bi bi-tools"></i>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <div class="service-category">
+
+                                    {{ service.category.name }}
+
+                                </div>
+
+
+                                {% if service.master.is_verified %}
+
+                                    <div class="service-verified">
+
+                                        <i class="bi bi-patch-check-fill"></i>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="service-body">
+
+                                <div class="service-title">
+
+                                    {{ service.title }}
+
+                                </div>
+
+
+                                <div class="service-master">
+
+                                    <div class="master-mini-avatar">
+
+                                        {% if service.master.user.avatar %}
+
+                                            <img
+                                                src="{{ service.master.user.avatar.url }}"
+                                                alt="{{ service.master.user.username }}"
+                                            >
+
+                                        {% else %}
+
+                                            <i class="bi bi-person"></i>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <span>
+
+                                        {{ service.master.user.get_full_name|default:service.master.user.username }}
+
+                                    </span>
+
+
+                                    {% if service.master.rating %}
+
+                                        <span>
+
+                                            <i class="bi bi-star-fill text-warning"></i>
+
+                                            {{ service.master.rating }}
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="service-bottom">
+
+                                    <div class="service-price">
+
+                                        {% if service.price_type == "from" %}
+
+                                            <small>
+                                                dan
+                                            </small>
+
+                                        {% endif %}
+
+                                        {{ service.price|floatformat:0 }}
+
+                                        so‘m
+
+                                        {% if service.price_type == "hourly" %}
+
+                                            <small>
+                                                / soat
+                                            </small>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <div class="service-arrow">
+
+                                        <i class="bi bi-arrow-up-right"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+
+                    <div class="empty-title">
+
+                        Xizmat topilmadi
+
+                    </div>
+
+
+                    <div class="empty-text">
+
+                        Qidiruv yoki filtrlarni o‘zgartirib
+                        qayta urinib ko‘ring.
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MASTERS
+    ====================================================== -->
+
+    <section
+        class="section"
+        id="masters"
+    >
+
+        <div class="container-xl-custom">
+
+            <div class="section-head">
+
+                <div>
+
+                    <div class="section-kicker">
+                        Mutaxassislar
+                    </div>
+
+                    <h2 class="section-title">
+                        Tasdiqlangan ustalar
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            {% if masters %}
+
+                <div class="master-grid">
+
+                    {% for master in masters %}
+
+                        <!--
+                            MUHIM:
+                            Endi usta kartasiga bosilganda
+                            master_detail sahifasiga o'tadi.
+                        -->
+
+                        <a
+                            href="{% url 'master_detail' master.id %}"
+                            class="master-card"
+                        >
+
+                            <div class="master-avatar">
+
+                                {% if master.user.avatar %}
+
+                                    <img
+                                        src="{{ master.user.avatar.url }}"
+                                        alt="{{ master.user.username }}"
+                                    >
+
+                                {% else %}
+
+                                    <i class="bi bi-person-fill"></i>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="master-info">
+
+                                <div class="master-name">
+
+                                    {{ master.user.get_full_name|default:master.user.username }}
+
+                                </div>
+
+
+                                <div class="master-profession">
+
+                                    {{ master.profession }}
+
+                                </div>
+
+
+                                <div class="master-details">
+
+                                    <span>
+
+                                        <i class="bi bi-star-fill text-warning"></i>
+
+                                        <strong>
+                                            {{ master.rating|default:"0.0" }}
+                                        </strong>
+
+                                    </span>
+
+
+                                    <span>
+
+                                        <strong>
+                                            {{ master.experience_years }}
+                                        </strong>
+
+                                        yil
+
+                                    </span>
+
+
+                                    <span>
+
+                                        <strong>
+                                            {{ master.completed_orders }}
+                                        </strong>
+
+                                        buyurtma
+
+                                    </span>
+
+                                </div>
+
+
+                                {% if master.is_verified %}
+
+                                    <div class="master-verified">
+
+                                        <i class="bi bi-patch-check-fill"></i>
+
+                                        Tasdiqlangan usta
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </a>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-people"></i>
+
+                    </div>
+
+                    <div class="empty-title">
+
+                        Hozircha ustalar yo‘q
+
+                    </div>
+
+                    <div class="empty-text">
+
+                        Tasdiqlangan mutaxassislar ro‘yxati
+                        shu yerda ko‘rsatiladi.
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="cta-section">
+
+        <div class="container-xl-custom">
+
+            <div class="cta-box">
+
+                <div class="cta-content">
+
+                    <div class="cta-kicker">
+
+                        USTALAR UCHUN
+
+                    </div>
+
+
+                    <h2 class="cta-title">
+
+                        O‘z xizmatingizni
+                        USTATOP’da ko‘rsating.
+
+                    </h2>
+
+
+                    <p class="cta-text">
+
+                        Professional xizmatlaringizni minglab
+                        potensial mijozlarga ko‘rsating va
+                        yangi buyurtmalarni qabul qiling.
+
+                    </p>
+
+
+                    <a
+                        href="/admin/"
+                        class="cta-button"
+                    >
+
+                        Usta sifatida boshlash
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}
